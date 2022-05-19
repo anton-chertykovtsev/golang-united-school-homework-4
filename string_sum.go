@@ -2,6 +2,9 @@ package string_sum
 
 import (
 	"errors"
+	"fmt"
+	"strconv"
+	"strings"
 )
 
 //use these errors as appropriate, wrapping them with fmt.Errorf function
@@ -23,5 +26,43 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(input string) (output string, err error) {
-	return "", nil
+	if len(input) == 0 {
+		return input, fmt.Errorf("got error: %w", errorEmptyInput)
+	}
+
+	var element string
+	var elements []string
+
+	// remove spaces from input string
+	input = strings.Join(strings.Fields(input), "")
+
+	// parsing the string into array with elements with initial signs
+	for i, v := range input {
+		// If the character + or - is not on the first position, then add the item to the array
+		if (v == '+' || v == '-') && i > 0 {
+			elements = append(elements, element)
+			element = ""
+		}
+
+		element = element + string(v)
+
+		// if the character is the last one, add the item to the array
+		if i == len(input)-1 {
+			elements = append(elements, element)
+		}
+	}
+
+	if len(elements) < 2 || len(elements) > 2 {
+		return output, fmt.Errorf("got error: %w", errorNotTwoOperands)
+	}
+
+	out := 0
+	for _, v := range elements {
+		s, err := strconv.Atoi(v)
+		if err != nil {
+			return output, fmt.Errorf("got error: %w", err)
+		}
+		out += s
+	}
+	return strconv.Itoa(out), nil
 }
