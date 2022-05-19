@@ -53,14 +53,14 @@ func StringSum(input string) (output string, err error) {
 	}
 
 	if len(elements) < 2 || len(elements) > 2 {
-		return output, fmt.Errorf("got error: %w", errorNotTwoOperands)
+		return output, fmt.Errorf("%s: %w", input, errorNotTwoOperands)
 	}
 
 	out := 0
 	for _, v := range elements {
 		s, err := strconv.Atoi(v)
 		if err != nil {
-			return output, fmt.Errorf("got error: %w", err)
+			return output, fmt.Errorf("%s: %w", input, err)
 		}
 		out += s
 	}
